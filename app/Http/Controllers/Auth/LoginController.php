@@ -10,20 +10,19 @@ class LoginController extends Controller
 {
     public function create()
     {
-        return view('auth.login'); // view login yang sama untuk user/admin
+        return view('auth.login'); // view login
     }
 
     public function store(Request $request)
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required'],
+            'name' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // cek role user
             if (Auth::user()->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
@@ -32,8 +31,8 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+            'name' => 'Nama atau password salah.',
+        ])->onlyInput('name');
     }
 
     public function destroy(Request $request)
