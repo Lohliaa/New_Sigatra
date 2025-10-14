@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\MOUController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,12 @@ Route::middleware(['auth'])->group(function () {
         return view('admin.dashboard');
     })->middleware('RoleMiddleware:admin')->name('admin.dashboard');
 
+    // MOU
+    Route::resource('/mou', MOUController::class);
+    // Route::get('/mou/download/{id}', [MOUController::class, 'download'])->name('mou.download');
+    Route::get('/mou/upload', [MOUController::class, 'upload'])->name('mou.upload');
+    Route::post('/mou/upload', [MOUController::class, 'uploadProcess'])->name('mou.upload.process');
+    Route::get('/export-mou', [MOUController::class, 'export'])->name('mou.export');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
