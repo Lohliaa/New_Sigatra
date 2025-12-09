@@ -21,13 +21,6 @@ class MOUController extends Controller
 
         $fields = ['tgl_mou', 'tanggal_lahir', 'tgl_mulai', 'tanggal_akhir'];
 
-        // foreach ($data as $item) {
-        //     foreach ($fields as $field) {
-        //         $item->{$field} = Date::formatFlexible($item->{$field});
-        //     }
-        // }
-
-
         return view('admin.mou.index', compact('mou', 'data'));
     }
 
@@ -36,10 +29,15 @@ class MOUController extends Controller
         return Excel::download(new MOUExport, 'Data MOU Gupeg SIT Permata.xlsx');
     }
 
+    public function upload()
+    {
+        return view('mou.upload');
+    }
+
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,csv'
+            'file' => 'required|mimes:xlsx,xls,csv'
         ]);
 
         Excel::import(new MOUImport, $request->file('file'));
@@ -50,16 +48,13 @@ class MOUController extends Controller
     public function uploadProcess(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv', // Sesuaikan dengan kebutuhan
+            'file' => 'required|mimes:xlsx,xls,csv'
         ]);
 
-        // Contoh: menyimpan file upload ke storage
-        $path = $request->file('file')->store('uploads');
+        // Jalankan import
+        Excel::import(new MOUImport, $request->file('file'));
 
-        // Jika menggunakan Laravel Excel (opsional)
-        Excel::import(new MouImport, $request->file('file'));
-
-        return redirect()->route('mou.upload.process')->with('success', 'Data berhasil diupload.');
+        return redirect()->route('mou.index')->with('success', 'Data MOU berhasil diupload.');
     }
 
     /**
@@ -83,7 +78,8 @@ class MOUController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $mou = MOU::findOrFail($id);
+        return view('admin.mou.read', compact('mou'));
     }
 
     /**
@@ -112,5 +108,12 @@ class MOUController extends Controller
         $mou->delete();
 
         return redirect()->route('mou.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function destroy_all()
+    {
+        MOU::truncate();
+
+        return redirect()->route('mou.index')->with('success', 'Semua data berhasil dihapus.');
     }
 }

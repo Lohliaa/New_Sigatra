@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'MOU')
+@section('title', 'SK')
 @section('content')
 
 <h1 class="mt-4"></h1>
@@ -12,10 +12,9 @@
                     Swal.fire('Sukses', '{{ session("success") }}', 'success');
                 </script>
                 @endif
-
                 <div>
                     <i class="fas fa-table me-1"></i>
-                    <strong>Data MoU Guru Pegawai Yayasan Permata Mojokerto</strong>
+                    <strong>Data SK Guru Pegawai Yayasan Permata Mojokerto</strong>
                 </div>
 
                 <!-- Modal Delete -->
@@ -49,20 +48,21 @@
                         <i class="bi bi-trash-fill"></i>
                     </button>
 
-                    <form id="deleteAllForm" action="{{ route('mou.destroy_all') }}" method="POST" class="d-none">
+                    <form id="deleteAllForm" action="{{ route('sk.destroy_all') }}" method="POST" class="d-none">
                         @csrf
                         @method('DELETE')
                     </form>
 
+
                     <!-- Tombol Export -->
-                    <form action="{{ route('mou.export') }}" method="GET" class="mb-0">
+                    <form action="{{ route('sk.export') }}" method="GET" class="mb-0">
                         <button type="submit" class="btn btn-dark btn-sm d-flex align-items-center justify-content-center">
                             <i class="bi bi-download fs-6"></i>
                         </button>
                     </form>
 
                     <!-- Form Upload -->
-                    <form action="{{ route('mou.upload.process') }}" method="POST" enctype="multipart/form-data" id="uploadForm" class="mb-0">
+                    <form action="{{ route('sk.upload.process') }}" method="POST" enctype="multipart/form-data" id="uploadForm" class="mb-0">
                         @csrf
                         <input type="file" name="file" id="fileInput" class="d-none" required>
 
@@ -85,68 +85,46 @@
                                 <th>No</th>
                                 <th>No SK</th>
                                 <th>No Tambahan</th>
-                                <th>Status Kepegawaian</th>
-                                <th>Status Detail</th>
                                 <th>Nama</th>
                                 <th>Gelar</th>
-                                <th>Hari Kerja</th>
-                                <th>Jam Kerja</th>
-                                <th>Alamat</th>
-                                <th>Hari</th>
-                                <th>Tanggal MoU</th>
                                 <th>Tempat Lahir</th>
                                 <th>Tanggal Lahir</th>
+                                <th>NIPY</th>
+                                <th>Gol Ruang</th>
+                                <th>Status Kepegawaian</th>
                                 <th>Unit Kerja</th>
-                                <th>Gaji Pokok</th>
-                                <th>Tunjangan Jabatan</th>
-                                <th>Tunjangan Transport</th>
-                                <th>Tunjangan Kinerja</th>
-                                <th>Tunjangan Fungsional</th>
-                                <th>THP</th>
-                                <th>Terbilang</th>
+                                <th>TMT</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Berlaku</th>
                                 <th>Tanggal Akhir</th>
-                                <th>Saksi 1</th>
-                                <th>Saksi 2</th>
+                                <th>Tanggal Ditetapkan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <?php $no = 1 ?>
-                            @foreach ($mou as $h)
+                            @foreach ($sk as $h)
                             <tr id="tr_{{ $h->id }}">
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $h->no_sk }}</td>
                                 <td>{{ $h->no_tambahan }}</td>
-                                <td>{{ $h->status_kepegawaian }}</td>
-                                <td>{{ $h->status_detail }}</td>
                                 <td>{{ $h->nama }}</td>
                                 <td>{{ $h->gelar }}</td>
-                                <td>{{ $h->hari_kerja }}</td>
-                                <td>{{ $h->jam_kerja }}</td>
-                                <td>{{ $h->alamat }}</td>
-                                <td>{{ $h->hari }}</td>
-                                <td>{{ $h->tgl_mou }}</td>
                                 <td>{{ $h->tempat_lahir }}</td>
-                                <td>{{ $h->tanggal_lahir }}</td>
+                                <td>{{ $h->tanggal_lahir}}</td>
+                                <td>{{ $h->nipy }}</td>
+                                <td>{{ $h->gol_ruang }}</td>
+                                <td>{{ $h->status_kepegawaian }}</td>
                                 <td>{{ $h->unit_kerja }}</td>
-                                <td>{{ $h->gaji_pokok }}</td>
-                                <td>{{ $h->tunjangan_jabatan }}</td>
-                                <td>{{ $h->tunjangan_transport }}</td>
-                                <td>{{ $h->tunjangan_kinerja }}</td>
-                                <td>{{ $h->tunjangan_fungsional }}</td>
-                                <td>{{ $h->thp }}</td>
-                                <td>{{ $h->terbilang }}</td>
-                                <td>{{ $h->tgl_mulai }}</td>
+                                <td>{{ $h->tmt }}</td>
+                                <td>{{ $h->tanggal_mulai }}</td>
                                 <td>{{ $h->berlaku }}</td>
                                 <td>{{ $h->tanggal_akhir }}</td>
-                                <td>{{ $h->saksi1 }}</td>
-                                <td>{{ $h->saksi2 }}</td>
+                                <td>{{ $h->tanggal_ditetapkan }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <form id="deleteForm_{{ $h->id }}" action="{{ route('mou.destroy', $h->id) }}"
+                                        <form id="deleteForm_{{ $h->id }}" action="{{ route('sk.destroy', $h->id) }}"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -155,11 +133,11 @@
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </form>
-                                        <a href="{{ route('mou.show', $h->id) }}" class="btn btn-warning mr-2">
+                                        <a href="{{ route('sk.show', $h->id) }}" class="btn btn-warning mr-2">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
-                                        <a href="{{ route('mou.edit', $h->id) }}" class="btn btn-primary mr-2">
+                                        <a href="{{ route('sk.edit', $h->id) }}" class="btn btn-primary mr-2">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </div>
@@ -223,7 +201,7 @@
     document.getElementById('btnDeleteAll').addEventListener('click', function() {
         Swal.fire({
             title: 'Hapus Semua Data?',
-            text: "Seluruh data MOU akan dihapus permanen!",
+            text: "Seluruh data SK akan dihapus permanen!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -237,6 +215,5 @@
         });
     });
 </script>
-
 
 @endsection
