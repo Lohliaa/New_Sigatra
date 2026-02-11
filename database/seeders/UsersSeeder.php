@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -62,17 +63,12 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-    Users::create([
-        'name'          => $user['name'],
-        'email'         => $user['email'],
-        'password'      => Hash::make('12345678'),
-        'role'          => $user['role'],
-        'nama_lengkap'  => $user['nama_lengkap'],
-        'status'        => $user['status'],
-        'unit'          => $user['unit'],
-        'jabatan'       => $user['jabatan'],
-    ]);
-}
-
+            Users::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make('12345678'),
+                'role' => $user['role'],
+            ]);
+        }
     }
 }

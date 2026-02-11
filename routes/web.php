@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BahanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Form_PenilaianController;
 use App\Http\Controllers\MOUController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PejabatController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\SKController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,13 +25,29 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->name('regi
 
 Route::middleware(['auth'])->group(function () {
 
+    // DASHBOARD USER
     Route::get('/home', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('dashboard', function () {
-        return view('admin.dashboard');
-    })->middleware('RoleMiddleware:admin')->name('admin.dashboard');
+    // DASHBOARD ADMIN
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // USER
+    Route::get('users', [UserController::class, 'index'])
+        ->name('users.index');
+
+    Route::post('users', [UserController::class, 'store'])
+        ->name('users.store');
+
+    Route::get('users/{id}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+
+    Route::put('users/{id}', [UserController::class, 'update'])
+        ->name('users.update');
+
+    Route::delete('users/{id}', [UserController::class, 'destroy'])
+        ->name('users.destroy');
 
     // MOU
     Route::get('/mou/upload', [MOUController::class, 'upload'])->name('mou.upload');
@@ -42,8 +63,15 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/sk/destroy_all', [SKController::class, 'destroy_all'])->name('sk.destroy_all');
     Route::resource('/sk', SKController::class);
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Bahan Penilaian Kinerja
+    Route::resource('/bahan_penilaian', BahanController::class);
+
+    // Form Penilaian Kinerja
+    Route::resource('/form_penilaian', Form_PenilaianController::class);
+
+    // PERIODE
+    Route::resource('/periode', PeriodeController::class);
+
+    // PEJABAT
+    Route::resource('/pejabat', PejabatController::class);
 });

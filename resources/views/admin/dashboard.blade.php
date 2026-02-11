@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
-<h1 class="mt-4">Dashboard</h1>
-<ol class="breadcrumb mb-4">
+<h1 class="mt-4">Dashboard {{ Auth::user()->name }} </h1>
+<!-- <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Dashboard</li>
-</ol>
+</ol> -->
 
 <div class="row">
     <div class="col-xl-3 col-md-6">
@@ -43,56 +43,108 @@
             </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Data MoU Guru Pegawai Yayasan Permata Mojokerto
-        </div>
-        <div class="card-body">
-            <table id="datatablesSimple">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                    </tr>
-                    <tr>
-                        <td>Donna Snider</td>
-                        <td>Customer Support</td>
-                        <td>New York</td>
-                        <td>27</td>
-                        <td>2011/01/25</td>
-                        <td>$112,000</td>
-                    </tr>
+    <div class="row">
 
-                </tbody>
-            </table>
+        <!-- ===================== -->
+        <!-- TABEL MOU -->
+        <!-- ===================== -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>Data MoU</strong>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Gelar</th>
+                                    <th>Tanggal MoU</th>
+                                    <th>Unit Kerja</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Akhir</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @php $no = 1; @endphp
+                                @foreach ($mou as $h)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $h->nama }}</td>
+                                    <td>{{ $h->gelar }}</td>
+                                    <td>{{ $h->tgl_mou }}</td>
+                                    <td>{{ $h->unit_kerja }}</td>
+                                    <td>{{ $h->tgl_mulai }}</td>
+                                    <td>{{ $h->tanggal_akhir }}</td>
+                                    <td>
+                                        <a href="{{ route('mou.show', $h->id) }}" class="btn btn-warning btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- ===================== -->
+        <!-- TABEL SK -->
+        <!-- ===================== -->
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>Data SK</strong>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Gelar</th>
+                                    <th>Status Kepegawaian</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Akhir</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @php $no = 1; @endphp
+                                @foreach ($sk as $s)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $s->nama }}</td>
+                                    <td>{{ $s->gelar }}</td>
+                                    <td>{{ $s->status_kepegawaian }}</td>
+                                    <td>{{ $s->tanggal_mulai }}</td>
+                                    <td>{{ $s->tanggal_akhir }}</td>
+                                    <td>
+                                        <a href="{{ route('sk.show', $s->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 
+</div>
 
 @endsection
